@@ -2,7 +2,7 @@
 
 CyberBrain is an advanced AI project designed specifically for training artificial intelligence models on devices with limited hardware capabilities. This repository provides tools and scripts for fine-tuning large language models efficiently using minimal resources, making it ideal for weaker devices—whether you're using a low-end CPU or a GPU with limited VRAM.
 
-In this project, we use technical content extracted from books as our primary training data. The raw text from these books is processed into instruction-response pairs tailored for fine-tuning models in Ethical Cyber Security. You can access the books file used for training [here](https://github.com/0PeterAdel/CyberBrain/blob/main/Create-DataSet/books.jsonl).
+In this project, we use technical content extracted from books as our primary training data. The raw text from these books is processed into instruction-response pairs tailored for fine-tuning models in Ethical Cyber Security. You can access the books file used for training [here](./Create-DataSet/source/orig).
 
 ![AI Training](assest/ai.jpg)
 
@@ -66,7 +66,7 @@ To ensure smooth performance, here is the recommended hardware for training mode
 
 ### 1. **Data Preparation**
 - **Source:** The training data is derived from technical books. The raw texts from these books are processed into instruction-response pairs focused on ethical cyber security.
-- **Books File:** The raw books file is available [here](https://github.com/0PeterAdel/CyberBrain/blob/main/Create-DataSet/books.jsonl).  
+- **Books File:** The raw books file is available [here](./Create-DataSet/source/orig).  
 - **Processing:** Scripts in the `Create-DataSet/` folder extract, clean, and format the text into a dataset ready for fine-tuning.
 
 ### 2. **Model Loading and LoRA Conversion**
