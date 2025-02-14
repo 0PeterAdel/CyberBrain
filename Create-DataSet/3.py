@@ -1,6 +1,6 @@
 import json
 
-# قائمة الكلمات المفتاحية ذات الصلة بالأمن السيبراني (يمكن تعديلها وتوسيعها حسب الحاجة)
+# List of keywords related to cybersecurity (can be modified and expanded as needed)
 keywords = ["attack", "hacking", "injection", "vulnerability", "security", "penetration", "exploit", "session", "authentication", "sql", "xss", "csrf"]
 
 def is_cybersecurity_text(text):
@@ -14,10 +14,10 @@ def create_training_pairs(input_file, output_file):
             try:
                 data = json.loads(line)
                 text = data.get("text", "").strip()
-                # إذا كان النص يحتوي على معلومات تقنية متعلقة بالأمن السيبراني
+                # If the text contains technical information related to cybersecurity
                 if is_cybersecurity_text(text) and len(text) > 50:
-                    # هنا يمكن تعديل نموذج التعليمات حسب ما تحتاج
-                    instruction = "اشرح المفهوم أو التقنية التالية في مجال الأمن السيبراني:"
+                    # Here you can adjust the instruction template as needed
+                    instruction = "Explain the following concept or technique in cybersecurity:"
                     training_pair = {
                         "instruction": instruction,
                         "input": "",
@@ -25,14 +25,15 @@ def create_training_pairs(input_file, output_file):
                     }
                     training_data.append(training_pair)
             except Exception as e:
-                print("خطأ في معالجة السطر:", e)
-    # حفظ الأزواج في ملف JSONL
+                print("Error processing the line:", e)
+    # Save the pairs in a JSONL file
     with open(output_file, 'w', encoding='utf-8') as outfile:
         for pair in training_data:
             outfile.write(json.dumps(pair, ensure_ascii=False) + "\n")
-    print(f"تم حفظ بيانات التدريب في الملف: {output_file}")
+    print(f"Training data has been saved in the file: {output_file}")
 
-# قم بتعديل أسماء الملفات حسب ترتيب خطوات التنسيق السابقة
-input_file = "formatted_data.jsonl"  # الملف المنسق الذي يحتوي على الفقرات
+# Modify the file names according to the sequence of previous formatting steps
+input_file = "formatted_data.jsonl"  # The formatted file containing the paragraphs
 output_file = "cybersecurity_training_data.jsonl"
 create_training_pairs(input_file, output_file)
+

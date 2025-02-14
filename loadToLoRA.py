@@ -16,5 +16,5 @@ def get_model():
         bias="none"
     )
     model = get_peft_model(model, lora_config)
-    print("تم تحميل وتطبيق LoRA على النموذج بنجاح!")
+    print("LoRA has been successfully uploaded and applied to the model!")
     return model, tokenizer

@@ -1,7 +1,7 @@
 import json
 import re
 
-# قائمة بأنماط النصوص غير التقنية التي نرغب بإزالتها
+# List of non-technical text patterns we want to remove
 non_tech_patterns = [
     r'Published by.*?(?=\.)',
     r'Copyright ©.*?(?=\.)',
@@ -13,7 +13,7 @@ non_tech_patterns = [
     r'John Wiley & Sons,? Inc\.?'
 ]
 
-# قائمة بالكلمات المفتاحية الخاصة بالأمن السيبراني
+# List of cybersecurity-related keywords
 cyber_keywords = [
     "security", "attack", "injection", "penetration", "vulnerability",
     "exploit", "web application", "authentication", "authorization",
@@ -21,20 +21,20 @@ cyber_keywords = [
 ]
 
 def further_clean(text):
-    # إزالة الأنماط غير التقنية
+    # Remove non-technical patterns
     for pattern in non_tech_patterns:
         text = re.sub(pattern, '', text, flags=re.IGNORECASE)
-    # تنظيم الفراغات الزائدة
+    # Normalize excess spaces
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
 
 def is_technical(text):
-    # التحقق من احتواء النص على إحدى الكلمات المفتاحية التقنية
+    # Check if the text contains any of the technical keywords
     text_lower = text.lower()
     return any(keyword in text_lower for keyword in cyber_keywords)
 
-input_file = "cybersec_training.jsonl"      # ملف بيانات التدريب الحالي
-output_file = "cybersec_training_refined.jsonl"  # الملف الناتج بعد التنقية
+input_file = "cybersec_training.jsonl"      # Current training data file
+output_file = "cybersec_training_refined.jsonl"  # Output file after refinement
 
 refined_records = []
 with open(input_file, 'r', encoding='utf-8') as infile:
@@ -43,19 +43,5 @@ with open(input_file, 'r', encoding='utf-8') as infile:
             record = json.loads(line)
             instruction = record.get("instruction", "").strip()
             output_text = record.get("output", "").strip()
-            # إجراء التنظيف الإضافي
-            cleaned_output = further_clean(output_text)
-            # الاحتفاظ بالسجلات التي تحتوي على معلومات تقنية ويكون حجمها أكبر من 20 كلمة
-            if is_technical(cleaned_output) and len(cleaned_output.split()) > 20:
-                refined_records.append({
-                    "instruction": instruction,
-                    "output": cleaned_output
-                })
-        except Exception as e:
-            print("Error processing line:", e)
+  
 
-with open(output_file, 'w', encoding='utf-8') as outfile:
-    for rec in refined_records:
-        outfile.write(json.dumps(rec, ensure_ascii=False) + "\n")
-
-print(f"تم حفظ البيانات المنقحة في الملف: {output_file}")

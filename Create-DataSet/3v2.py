@@ -1,11 +1,11 @@
 import json
 import re
 
-# تعبير نمطي لاكتشاف عناوين الفصول؛ يحاول التعرف على نص يبدأ بـ "C H A P T E R" أو "Chapter"
+# Regular expression to detect chapter titles; tries to match text starting with "C H A P T E R" or "Chapter"
 chapter_header_pattern = re.compile(r'^(?:C\s*H\s*A\s*P\s*T\s*E\s*R|Chapter)\s*(.*)', re.IGNORECASE)
 
-input_file = "formatted_data.jsonl"       # الملف الحالي الذي يحتوي على الفقرات المنسقة
-output_file = "cybersec_training.jsonl"     # الملف الجديد الذي سيحتوي على أمثلة التدريب
+input_file = "formatted_data.jsonl"       # The current file containing formatted paragraphs
+output_file = "cybersec_training.jsonl"    # The new file that will contain the training examples
 
 chapters = []
 current_chapter_title = None
@@ -16,39 +16,40 @@ with open(input_file, 'r', encoding='utf-8') as f:
         try:
             data = json.loads(line)
         except Exception as e:
-            print("خطأ في قراءة السطر:", e)
+            print("Error reading line:", e)
             continue
         text = data.get("text", "").strip()
-        # التحقق مما إذا كان النص هو عنوان فصل
+        # Check if the text is a chapter title
         header_match = chapter_header_pattern.match(text)
         if header_match:
-            # إذا كان هناك فصل سابق تم تجميع محتواه، نقوم بتخزينه
+            # If there was a previous chapter, store its content
             if current_chapter_title and current_content:
                 chapters.append({
                     "instruction": current_chapter_title,
                     "output": " ".join(current_content).strip()
                 })
-            # تحديث عنوان الفصل الحالي إلى العنوان الجديد (قد يكون العنوان عبارة عن النص الذي يلي الكلمة Chapter)
+            # Update the current chapter title to the new title (which may be the text following the word "Chapter")
             current_chapter_title = header_match.group(1).strip()
-            current_content = []  # إعادة تهيئة المحتوى للفصل الجديد
+            current_content = []  # Reinitialize the content for the new chapter
         else:
-            # إذا لم يكن النص عنوان فصل ونفترض أننا ضمن فصل محدد، نضيف النص للمحتوى
+            # If it's not a chapter title and we are in an existing chapter, add the text to the content
             if current_chapter_title:
                 current_content.append(text)
             else:
-                # إذا لم يظهر عنوان فصل بعد، يمكن تجاهل هذه الفقرات أو استخدامها كمقدمة
+                # If no chapter title has appeared yet, we can either ignore these paragraphs or treat them as an introduction
                 pass
 
-# إضافة آخر فصل إذا وجد
+# Add the last chapter if exists
 if current_chapter_title and current_content:
     chapters.append({
         "instruction": current_chapter_title,
         "output": " ".join(current_content).strip()
     })
 
-# حفظ الأمثلة إلى ملف JSONL جديد
+# Save the examples to a new JSONL file
 with open(output_file, 'w', encoding='utf-8') as f:
     for chapter in chapters:
         f.write(json.dumps(chapter, ensure_ascii=False) + "\n")
 
-print(f"تم إنشاء بيانات التدريب لـ {len(chapters)} فصول في الملف: {output_file}")
+print(f"Training data for {len(chapters)} chapters has been created in the file: {output_file}")
+
