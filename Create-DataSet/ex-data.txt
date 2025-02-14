@@ -1,2 +1,0 @@
-{"instruction": "What is the capital of France?", "output": "The capital of France is Paris."}
-{"instruction": "Solve: 2 + 2", "output": "The answer is 4."}
