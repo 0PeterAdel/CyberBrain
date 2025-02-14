@@ -26,7 +26,7 @@ trainer.py              # Trainer script for fine-tuning the model
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/CyberBrain.git
+git clone https://github.com/0PeterAdel/CyberBrain.git
 cd CyberBrain
 ```
 
