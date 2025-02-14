@@ -45,7 +45,9 @@ Install necessary dependencies, including GCC for compatibility:
 
 ```bash
 conda install -c conda-forge gcc_linux-64 gxx_linux-64
+conda install -c conda-forge cudatoolkit=11.7
 pip install -r requirements.txt
+
 ```
 
 ## 🤖Hardware Requirements
