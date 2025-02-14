@@ -1,0 +1,6 @@
+unsloth 
+torch
+transformers 
+datasets 
+accelerate
+bitsandbytes
