@@ -4,3 +4,4 @@ transformers
 datasets 
 accelerate
 bitsandbytes
+PyPDF2
