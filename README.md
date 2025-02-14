@@ -4,6 +4,8 @@ CyberBrain is an advanced AI project designed specifically for training artifici
 
 The project includes scripts for both CPU and GPU-based training and focuses on optimizing the fine-tuning process for efficiency, even on machines with lower hardware capabilities.
 
+![AI Training](/assest/ai.jpg)
+
 ## 📦Project Structure
 
 ```
